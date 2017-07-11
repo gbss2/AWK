@@ -1,0 +1,29 @@
+# Replace position info from MachAdmix/MAP file into DAT file 
+# 1) Split 2nd column from map file                 -> split($2, b, ":");
+# 2) Create a hash (rsId = key; 2nd column = value) -> a[b[1]] = $2
+# 3) Check IF rsId from 2nd file exists in hash     -> if($2 in a)
+# 4) IF YES, print 1st column and stored value      -> print $1,a[$2];
+# 5) IF NO, print both columns from 2nd file        -> else print $1,$2
+
+# MAP file (from MachAdmix files)
+# 
+# 22 rs915675 0 14433659 A C
+# 22 rs12628452:16055171:G:A 0 16055171 G A
+# 22 rs9628390 0 15531659 C A
+
+# DAT File (only rs)
+#
+# A affectionStatus
+# M rs915675
+# M rs12628452
+# M rs9628390
+
+# DAT File (final - matched data)
+# 
+# A affectionStatus
+# M rs915675
+# M rs12628452:16055171:G:A
+# M rs9628390
+
+
+awk 'NR==FNR { split($2, b, ":"); a[b[1]] = $2; next } {if($2 in a) print $1,a[$2]; else print $1,$2}' OFS=' ' reduced.ALL.chr22.phase3_shapeit2_mvncall_integrated_v5.20130502.genotypes.plink.map ../capeverde/cv-final-rel-chr22-code0.dat > ../capeverde/cv-final-rel-chr22-code0matched.dat
