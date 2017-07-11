@@ -1,0 +1,3 @@
+# Count lines where regexp is present
+
+awk '/regExp/  { ++x } END { print x+0 }' file
