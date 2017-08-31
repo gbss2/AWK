@@ -26,4 +26,4 @@
 # M rs9628390
 
 
-awk 'NR==FNR { split($2, b, ":"); a[b[1]] = $2; next } {if($2 in a) print $1,a[$2]; else print $1,$2}' OFS=' ' reduced.ALL.chr22.phase3_shapeit2_mvncall_integrated_v5.20130502.genotypes.plink.map ../capeverde/cv-final-rel-chr22-code0.dat > ../capeverde/cv-final-rel-chr22-code0matched.dat
+awk 'NR==FNR { split($2, b, ":"); a[b[1]] = $2; next } {if($2 in a) print $1,a[$2]; else print $1,$2}' OFS=' ' reduced.ALL.chr22.phase3_shapeit2_mvncall_integrated_v5.20130502.genotypes.plink.map ../cv-final-rel-chr22-code0.dat > ../cv-final-rel-chr22-code0matched.dat
