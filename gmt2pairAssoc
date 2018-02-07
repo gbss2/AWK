@@ -1,0 +1,11 @@
+# Creates a pathway/gene file from Reactome Pathway Gene Set
+#
+# Example:
+#
+# 2-LTR circle formation	R-HSA-164843	BANF1	HMGA1	LIG4
+#
+# 2-LTR circle formation  BANF1
+# 2-LTR circle formation  HMGA1
+# 2-LTR circle formation  LIG4
+
+awk -v FS="\t" '{for (i= 3; i <= NF; ++i) if($i ~ /[[:upper:]]/) print $1, $i }' ReactomePathways.gmt > ReactomeGenePathway.txt
