@@ -1,0 +1,3 @@
+
+
+awk -v tmp="'%s', " '{printf tmp, $2}' {file_to_format} > {formated_file}
