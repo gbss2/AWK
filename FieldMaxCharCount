@@ -1,0 +1,12 @@
+# Counts the maximum number of characters in each field of a file
+# 
+# -F'\t' -> Tab field separator
+# NR == 1 -> Prints header if in first line (adjust accordingly)
+# for(i = 1; i <= NF; ++i) -> for each column/field
+#   if (length($i) > max[i]) max[i] = length($i) } -> If text length in ith column is greater than max value stored for this column, replace previous one
+# nfields = length(max) -> Determine the number of columns/fields in the file
+# for (j = 1; j < nfields; ++j) printf "%s\t", max[j] -> prints max n-1th values separeted by tabs
+# printf "%s\n", max[nfields] -> prints last element of max array and newline
+#
+
+awk -F'\t' 'NR == 1; NR > 1 { for(i = 1; i <= NF; ++i) { if (length($i) > max[i]) max[i] = length($i) } } END { nfields = length(max); for (j = 1; j < nfields; ++j) printf "%s\t", max[j]; printf "%s\n", max[nfields] }' {input_file}
