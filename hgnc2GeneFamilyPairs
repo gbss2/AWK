@@ -1,0 +1,7 @@
+## HGNC TSV Data to Gene Family / Gene Pairs
+# gsub(/"/, "") - Remove quotes
+# if($13 ~ /\|/) Check for inside field separator -> |
+# n=split($13, a, "\|") Split Gene Group (family) Field by "|" and return number of elements
+# if(length($13)==0) Check for empty field
+
+awk -v FS="\t" '{gsub(/"/, ""); if($13 ~ /\|/) {n=split($13, a, "\|"); for(i=1;i<=n;++i) print a[i], $2, $19, $20} else if(length($13)==0) {print "NoGroup", $2, $19, $20} else print $13, $2, $19, $20}' OFS="\t" hgnc_complete_set.txt > hgnc_summary_set_family2gene.txt
