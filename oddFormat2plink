@@ -1,0 +1,13 @@
+# Convert odd genotype format to plink
+
+# plink Bim
+awk 'NR > 1 {split($1,a,":"); print a[1], $5, "0", a[2], $2, $3 }' OFS="\t" <FILE> > <FILE>.bim
+
+# plink map
+awk 'NR > 1 {split($1,a,":"); print a[1], $5, "0", a[2]}' OFS="\t" <FILE>.tsv > <FILE>.map
+
+# plink fam
+awk -v n=29 '{if(NR==1) for (i=n; i<=NF; i++) printf "%s\t%s\t0\t0\t0\t0\n", $i, $i}' <FILE>.tsv > <FILE>.fam
+
+# plink ped
+awk '{n=split($0, a, "\t"); for (i = 29; i <= n; i++) if(a[i]=="-") {printf "%s%s%s", a[2], a[2], (i<n ? OFS : ORS)}  else if(a[i]=="0/1") {printf "%s%s%s", a[2], a[3], (i<n ? OFS : ORS)} else if(a[i]=="1/1") {printf "%s%s%s", a[3], a[3], (i<n ? OFS : ORS)} else if(a[i]=="...") {printf "%s%s%s", "0", "0", (i<n ? OFS : ORS)} else {printf "%s%s", a[i], (i<n ? OFS : ORS)} }' <FILE>.tsv > <FILE>.ped
